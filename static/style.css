@@ -1,0 +1,203 @@
+/* Reset some default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Global styles */
+body {
+    /* background-image: url('bg3.jpg'); */
+
+    background-color: rgb(0, 0, 0);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Set height to 100vh to cover the entire viewport */
+    margin: 0;
+    background-size: cover;
+    background-position: center;
+    /* Center the background image */
+    background-repeat: no-repeat;
+    overflow: hidden;
+    /* Prevent scrolling for mobile devices */
+}
+
+.expiration-button {
+    background-color: #9a9a9c23;
+    /* Blue background color */
+    color: #fff;
+    /* White text color */
+    padding: 10px 20px;
+    /* Padding around the text */
+    border: none;
+    /* Remove the default button border */
+    border-radius: 5px;
+    /* Add rounded corners */
+    margin: 5px;
+    /* Margin between buttons */
+    cursor: pointer;
+    /* Change cursor on hover */
+    transition: background-color 0.3s ease;
+    /* Smooth background color transition on hover */
+
+    /* Optional: Add a hover effect */
+    &:hover {
+        background-color: rgba(1, 8, 16, 0.301);
+        /* Darker blue on hover */
+    }
+}
+
+/* Style for the selected button */
+.expiration-button.selected {
+    background-color: #d8d8e085;
+    /* Green background color for the selected button */
+}
+
+header {
+    text-align: center;
+    position: relative;
+    top: 5%;
+}
+
+h1 {
+    font-size: 4rem;
+    margin-bottom: -10px;
+    margin-top: 15%;
+}
+
+h2 {
+    margin-bottom: 30px;
+    margin-top: 5%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.drop-area {
+    width: 900px;
+    /* Adjust the width as needed */
+    height: 200px;
+    /* Adjust the height as needed */
+    position: relative;
+    background-color: rgba(60, 58, 58, 0.086);
+    padding: 20px;
+    margin-top: -10%;
+    /* margin-bottom: 10px; */
+    text-align: center;
+    cursor: pointer;
+    transition: border 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Center vertically */
+    align-items: center;
+    /* Center horizontally */
+
+    /* Optional: Add a hover effect */
+    &:hover {
+        /* border: 2px dashed #1e0423; */
+        /* Change border color on hover (green) */
+        background-color: rgba(255, 255, 255, 0.066);
+        /* Darker blue background on hover */
+    }
+}
+
+.drag-text {
+    font-size: 1.2rem;
+    color: #f2f4f6;
+    margin-bottom: 10px;
+}
+
+/* Add a fixed height and overflow-y for the file links container */
+#fileLinks {
+    padding: 10px;
+}
+
+
+/* Add a transparent background to the file input */
+#fileInput {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    /* Hide the file input */
+    cursor: pointer;
+    z-index: 1;
+    /* Ensure the file input is on top of other elements */
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .drop-area {
+        /* padding: 15px; */
+        width: 300px;
+    }
+}
+
+/* Add styles for the custom text field */
+.expiration-input {
+    background-color: #9a9a9c23;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: rgba(1, 8, 16, 0.301);
+        /* Darker blue on hover */
+    }
+}
+
+/* Style for the selected custom text field */
+.expiration-input.selected {
+    background-color: #d8d8e085;
+}
+
+.secret-input {
+    background-color: #9a9a9c23;
+    /* Blue background color */
+    color: #fff;
+    /* White text color */
+    padding: 10px 20px;
+    /* Padding around the text */
+    border: none;
+    /* Remove the default button border */
+    border-radius: 5px;
+    /* Add rounded corners */
+    margin: 5px;
+    /* Margin between buttons */
+    cursor: pointer;
+    /* Change cursor on hover */
+    transition: background-color 0.3s ease;
+    /* Smooth background color transition on hover */
+
+    /* Optional: Add a hover effect */
+    &:hover {
+        background-color: rgba(1, 8, 16, 0.301);
+        /* Darker blue on hover */
+    }
+}
+
+.secret-input.selected {
+    background-color: #d8d8e085;
+}

@@ -1,0 +1,155 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.jpg' %}">
+    <script src="{% static 'js/script.js' %}" defer></script>
+    <title>File Uploader</title>
+</head>
+
+<script>
+    function getRandomImage() {
+        // Array of random image URLs
+        var randomImages = [
+            "{% static 'images/bg1.jpg' %}",
+            "{% static 'images/bg2.png' %}",
+            "{% static 'images/bg3.png' %}",
+            "{% static 'images/bg4.jpg' %}",
+            "{% static 'images/bg5.jpg' %}",
+            "{% static 'images/bg7.jpg' %}",
+            "{% static 'images/bg8.jpg' %}",
+            "{% static 'images/bg9.jpg' %}",
+            "{% static 'images/bg10.jpg' %}"
+        ];
+
+        // Get a random index from the array
+        var randomIndex = Math.floor(Math.random() * randomImages.length);
+
+        // Set the random background image
+        document.body.style.backgroundImage = 'url(' + randomImages[randomIndex] + ')';
+    }
+
+    // Call the function on page load or refresh
+    window.onload = getRandomImage;
+</script>
+
+<script type="text/javascript">
+    function ValidateExtension() {
+        var allowedFiles = [".doc", ".docx", ".pdf", ".jpg", ".png"];
+        var fileUpload = document.getElementById("save");
+        var lblError = document.getElementById("lblError");
+        var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+        if (!regex.test(fileUpload.value.toLowerCase())) {
+            lblError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
+            return false;
+        }
+        lblError.innerHTML = "";
+        return true;
+    }
+
+    function copyToClipboard(text) {
+        // Create a temporary textarea element to hold the text to be copied
+        var textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";  // Ensure it's not visible
+        document.body.appendChild(textarea);
+
+        // Select and copy the text inside the textarea
+        textarea.select();
+        document.execCommand("copy");
+
+        // Clean up: remove the textarea from the DOM
+        document.body.removeChild(textarea);
+
+        // Optionally, provide some visual feedback to the user
+        alert("Copied to clipboard: " + text);
+    }
+    var inputs = document.querySelectorAll('.inputfile');
+Array.prototype.forEach.call(inputs, function(input) {
+    var label = input.nextElementSibling,
+        labelVal = label.innerHTML;
+
+    input.addEventListener('change', function(e) {
+        var fileName = '';
+        if (this.files && this.files.length > 1)
+            fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
+        else
+            fileName = e.target.value.split('\\').pop();
+
+        if (fileName)
+            label.querySelector('span').innerHTML = fileName;
+        else
+            label.innerHTML = labelVal;
+    });
+});
+
+</script>
+
+<div>
+    <header>
+        <h1>DropDash</h1>
+        <h2>Drop It Like It's Hot: Share any file, any size, securely.</h2>
+        <!-- <div id="expirationOptions">
+            <label>Expire after:</label>
+            <button id="expire1Hour" class="expiration-button selected" data-expiration="60">1 Hour</button>
+            <button id="expire12Hours" class="expiration-button" data-expiration="360">6 Hours</button>
+            <button id="expire12Hours" class="expiration-button" data-expiration="720">12 Hours</button>
+            <button id="expire3Days" class="expiration-button" data-expiration="1440">24 Hours</button>
+            <input type="text" id="customExpiration" class="expiration-input" placeholder="Custom (minutes)">
+            <input type="password" class="secret-input" id="secret" placeholder="Password (Optional)">
+        </div> -->
+    </header>
+
+    <div class="panel-body">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="input-group image-preview">
+                <!-- <input placeholder="" id="file_name" type="text" class="form-control image-preview-filename" > -->
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                        <span class="glyphicon glyphicon-remove"></span> Clear
+                    </button>
+                    <div>
+                        <!-- <span class="image-preview-input-title">Select File</span> -->
+                        <input type="file" id="save" name="savefile" onchange="document.getElementById('file_name').value = this.value.split('\\\\').pop().split('/').pop()" />
+                    </div>
+                    <button type="submit" onclick="return ValidateExtension()" class="btn btn-labeled btn-primary">
+                        <span class="btn-label"><i class="glyphicon glyphicon-upload"></i></span>Upload
+                    </button>
+                </span>
+            </div>
+            <br />
+            <span id="lblError" style="color: red;"></span>
+            <br />
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </form>
+
+        {% if uploaded_url %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><strong>Uploaded File URL</strong></div>
+                        <div class="panel-body">
+                            <p>
+                                <button class="btn btn-primary" onclick="copyToClipboard('{{ uploaded_url }}')">Copy Link to Clipboard</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
